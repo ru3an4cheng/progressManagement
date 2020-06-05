@@ -1,0 +1,713 @@
+  def baseProps = new Properties()
+  def osdir = ''
+  def os = System.getProperty("os.name")
+  if(os.toString().toUpperCase().startsWith("WINDOWS")) {
+    osdir = '\\'
+  }else {
+    osdir = '/'
+  }
+  new File(rootDir.toString().substring(0,rootDir.toString().lastIndexOf(osdir))+"/${mainProjectName}"+"/gradle.properties").withInputStream { 
+    stream -> baseProps.load(stream) 
+  }
+  def baseConfig = new ConfigSlurper().parse(baseProps)
+import java.util.HashMap  
+  String cloudComponents = "${cloudComponents}"
+  HashMap<String, String> componentsMap = new HashMap<>()
+  if(cloudComponents!=null&&!"".equals(cloudComponents.trim())){
+      String[] array = cloudComponents.split(",")
+      for(int i=0;i<array.length;i++){
+          componentsMap.put(array[i].trim(), "");
+      }
+  }
+  String springDataJpaComponents = "${springDataJpaComponents}"
+  HashMap<String, String> componentsMapJpa = new HashMap<>()
+  if(springDataJpaComponents!=null&&!"".equals(springDataJpaComponents.trim())){
+      String[] array = springDataJpaComponents.split(",")
+      for(int i=0;i<array.length;i++){
+          componentsMapJpa.put(array[i].trim(), "");
+      }
+  }
+  String springbootComponents = "${springbootComponents}"
+  HashMap<String, String> componentsMapsb = new HashMap<>()
+  if(springbootComponents!=null&&!"".equals(springbootComponents.trim())){
+      String[] array = springbootComponents.split(",")
+      for(int i=0;i<array.length;i++){
+          componentsMapsb.put(array[i].trim(), "");
+      }
+  }
+  String SGUAPComponents = "${SGUAPComponents}"
+  HashMap<String, String> componentsMapsguap = new HashMap<>()
+  if(SGUAPComponents!=null&&!"".equals(SGUAPComponents.trim())){
+      String[] array = SGUAPComponents.split(",")
+      for(int i=0;i<array.length;i++){
+          componentsMapsguap.put(array[i].trim(), "");
+      }
+  }
+dependencies {
+    //springboot web所需jar包
+    //开始：springboot web所需jar包
+    compile group: 'com.sgcc.uap', name: 'com.sgcc.uap.common-adapter', version:'0.0.2'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.1.3.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-autoconfigure', version:'2.1.3.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot', version:'2.1.3.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-actuator', version:'2.1.3.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-actuator-autoconfigure', version:'2.1.3.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '2.1.3.RELEASE'
+    compile group: 'org.springframework', name: 'spring-core', version:'5.1.5.RELEASE'
+    compile group: 'org.springframework', name: 'spring-web', version:'5.1.5.RELEASE'
+    compile group: 'org.springframework', name: 'spring-context', version:'5.1.5.RELEASE'
+	compile group: 'org.springframework', name: 'spring-oxm', version: '5.1.5.RELEASE'
+    compile group: 'com.fasterxml', name: 'classmate', version:'1.4.0'
+    compile group: 'org.codehaus.groovy', name: 'groovy', version: '2.4.7'
+    compile group: 'org.hibernate', name: 'hibernate-validator', version:'6.0.11.Final'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version:'2.9.5'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version:'2.9.8'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.9.8'
+    compile group: 'org.javassist', name: 'javassist', version: '3.20.0-GA'
+    compile group: 'org.jboss.logging', name: 'jboss-logging', version:'3.3.2.Final'
+    compile group: 'org.slf4j', name: 'jcl-over-slf4j', version: '1.7.21'
+    compile group: 'org.slf4j', name: 'jul-to-slf4j', version:'1.7.25'
+    compile group: 'org.slf4j', name: 'log4j-over-slf4j', version: '1.7.21'
+	compile group: 'log4j', name: 'log4j', version: '1.2.16'
+    compile group: 'ch.qos.logback', name: 'logback-classic', version:'1.2.3'
+    compile group: 'ch.qos.logback', name: 'logback-core', version:'1.2.3'
+    compile group: 'ognl', name: 'ognl', version: '3.0.8'
+    compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.25'
+    compile group: 'org.yaml', name: 'snakeyaml', version:'1.23'
+    compile group: 'org.springframework', name: 'spring-aop', version:'5.1.5.RELEASE'
+    compile group: 'org.springframework', name: 'spring-beans', version:'5.1.5.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter', version:'2.1.3.RELEASE'
+    
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-logging', version:'2.1.3.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-json', version:'2.1.3.RELEASE'
+    compile group: 'org.springframework', name: 'spring-expression', version:'5.1.5.RELEASE'
+    compile group: 'org.springframework', name: 'spring-webmvc', version:'5.1.5.RELEASE'
+    compile group: 'org.thymeleaf', name: 'thymeleaf', version: '3.0.11.RELEASE'
+    compile group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: '2.3.0'
+    compile group: 'org.thymeleaf', name: 'thymeleaf-spring5', version: '3.0.11.RELEASE'
+    compile group: 'org.attoparser', name: 'attoparser', version: '2.0.5.RELEASE'
+    compile group: 'org.apache.tomcat.embed', name: 'sgmaps-embed-core', version: '8.5.51'
+    compile group: 'org.apache.tomcat.embed', name: 'sgmaps-embed-el', version: '8.5.51'
+    compile group: 'org.apache.tomcat.embed', name: 'sgmaps-embed-websocket', version: '8.5.51'
+    compile group: 'org.apache.tomcat.embed', name: 'annotations-api'
+    //compile group: 'org.apache.tomcat.embed', name: 'sgmaps-annotations-api', version: '8.5.40'
+    compile group: 'org.unbescape', name: 'unbescape', version: '1.1.6.RELEASE'
+    compile group: 'javax.validation', name: 'validation-api', version:'2.0.1.Final'
+    compile group: 'commons-collections', name: 'commons-collections', version:'3.2.2'
+    compile group: 'antlr', name: 'antlr', version: '2.7.7'
+    compile group: 'aopalliance', name: 'aopalliance', version: '1.0'
+    //结束：springboot web所需jar包
+    //quartz
+	compile group: 'javax.servlet.jsp.jstl', name: 'jstl', version: '1.2'
+	compile group: 'org.quartz-scheduler', name: 'quartz', version: '2.2.1'
+	compile group: 'org.springframework', name: 'spring-context-support', version:'5.1.5.RELEASE'
+    //quartz
+    
+    //开始：亚马逊依赖jar包
+    compile group: 'com.amazonaws', name: 'aws-java-sdk-autoscaling', version: '1.11.415'
+    compile group: 'com.amazonaws', name: 'aws-java-sdk-core', version: '1.11.415'
+    compile group: 'com.amazonaws', name: 'aws-java-sdk-ec2', version: '1.11.415'
+    compile group: 'com.amazonaws', name: 'aws-java-sdk-route53', version: '1.11.415'
+    compile group: 'com.amazonaws', name: 'aws-java-sdk-sts', version: '1.11.415'
+    //结束：亚马逊依赖jar包
+
+    //开始：google依赖jar包
+    compile group: 'com.google.code.findbugs', name: 'annotations', version: '2.0.0'
+    compile group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.2'
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.5'
+    compile group: 'com.google.guava', name: 'guava', version: '20.0'
+    compile group: 'com.google.inject.extensions', name: 'guice-assistedinject', version: '4.0'
+    compile group: 'com.google.inject.extensions', name: 'guice-grapher', version: '4.0'
+    compile group: 'com.google.inject.extensions', name: 'guice-multibindings', version: '4.0'
+    compile group: 'com.google.inject', name: 'guice', version: '4.0'
+    //结束：google依赖jar包
+    
+    //开始：集成注册中心、断路器、负载均衡相关jar
+    compile group: 'com.netflix.archaius', name: 'archaius-core', version:'0.7.6'
+    //if(componentsMap!=null && componentsMap.containsKey("eureka")) {
+    //if(baseConfig.packingParam.equals("")) {
+    if(!baseConfig.packingParam.equals("") && baseConfig.packingParam.equals("springcloud")) {
+    compile group: 'com.netflix.eureka', name: 'eureka-client', version:'1.9.12'
+    compile group: 'com.netflix.eureka', name: 'eureka-core', version:'1.9.12'
+	compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-eureka-client', version: '2.1.2.RELEASE'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-config', version:'2.1.3.RELEASE'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-netflix-eureka-client', version:'2.1.2.RELEASE'
+    
+    }
+    //}
+   
+    //开始：集成华为云cse
+    if(!baseConfig.packingParam.equals("") && baseConfig.packingParam.equals("cse")) {
+    compile group: 'com.sgcc.uap', name: 'com.sgcc.uap.cse-adapter', version:'0.0.2'
+    compile group: 'org.antlr', name: 'antlr4', version:'4.7'
+    compile group: 'org.antlr', name: 'antlr4-runtime', version:'4.7'
+    compile group: 'org.apache.servicecomb', name: 'common-javassist', version:'1.0.0.B003.H98'
+    compile group: 'org.apache.servicecomb', name: 'common-protobuf', version:'1.0.0.B003.H98'
+    compile group: 'org.apache.servicecomb', name: 'common-rest', version:'1.0.0.B003.H98'
+    compile group: 'commons-io', name: 'commons-io', version:'2.6'
+    compile group: 'org.apache.servicecomb', name: 'config-cc', version:'1.0.0.B003.H98'
+    compile group: 'com.huawei.paas.cse', name: 'cse-handler-performance-stats', version:'6.5.59'
+    compile group: 'org.apache.servicecomb', name: 'deployment', version:'1.0.0.B003.H98'
+    compile group: 'com.google.errorprone', name: 'error_prone_annotations', version:'2.1.3'
+    compile group: 'com.huawei.paas.cse', name: 'foundation-auth', version:'6.5.59'
+    compile group: 'org.apache.servicecomb', name: 'foundation-common', version:'1.0.0.B003.H98'
+    compile group: 'org.apache.servicecomb', name: 'foundation-config', version:'1.0.0.B003.H98'
+    compile group: 'org.apache.servicecomb', name: 'foundation-metrics', version:'1.0.0.B003.H98'
+    compile group: 'org.apache.servicecomb', name: 'foundation-protobuf', version:'1.0.0.B003.H98'
+    compile group: 'org.apache.servicecomb', name: 'foundation-ssl', version:'1.0.0.B003.H98'
+    compile group: 'org.apache.servicecomb', name: 'foundation-vertx', version:'1.0.0.B003.H98'
+    compile group: 'org.apache.servicecomb', name: 'handler-bizkeeper', version:'1.0.0.B003.H98'
+    compile group: 'org.apache.servicecomb', name: 'handler-fault-injection', version:'1.0.0.B003.H98'
+    compile group: 'org.apache.servicecomb', name: 'handler-flowcontrol-qps', version:'1.0.0.B003.H98'
+    compile group: 'org.apache.servicecomb', name: 'handler-publickey-auth', version:'1.0.0.B003.H98'
+    compile group: 'com.google.j2objc', name: 'j2objc-annotations', version:'1.1'
+    compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml', version:'2.9.8'
+    compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version:'2.9.8'
+    compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-jaxb-annotations', version:'2.9.8'
+    compile group: 'org.apache.servicecomb', name: 'java-chassis-core', version:'1.0.0.B003.H98'
+    compile group: 'org.glassfish', name: 'javax.json', version:'1.0.4'
+    compile group: 'org.glassfish', name: 'javax.el', version: '3.0.0'
+    compile group: 'javax.ws.rs', name: 'javax.ws.rs-api', version:'2.0.1'
+    compile group: 'io.netty', name: 'netty-codec-dns', version:'4.1.33.Final'
+    compile group: 'io.netty', name: 'netty-codec-http2', version:'4.1.33.Final'
+    compile group: 'io.netty', name: 'netty-resolver-dns', version:'4.1.33.Final'
+    compile group: 'io.netty', name: 'netty-tcnative-boringssl-static', version:'2.0.20.Final'
+    compile group: 'org.abego.treelayout', name: 'org.abego.treelayout.core', version:'1.0.3'
+    compile group: 'com.google.protobuf', name: 'protobuf-java', version:'3.5.1'
+    compile group: 'io.protostuff', name: 'protostuff-api', version:'1.5.2'
+    compile group: 'io.protostuff', name: 'protostuff-collectionschema', version:'1.5.2'
+    compile group: 'io.protostuff', name: 'protostuff-core', version:'1.5.2'
+    compile group: 'io.protostuff', name: 'protostuff-parser', version:'2.2.25'
+    compile group: 'io.protostuff', name: 'protostuff-runtime', version:'1.5.2'
+    compile group: 'org.apache.servicecomb', name: 'provider-jaxrs', version:'1.0.0.B003.H98'
+    compile group: 'org.apache.servicecomb', name: 'provider-pojo', version:'1.0.0.B003.H98'
+    compile group: 'org.apache.servicecomb', name: 'provider-rest-common', version:'1.0.0.B003.H98'
+    compile group: 'org.apache.servicecomb', name: 'provider-springmvc', version:'1.0.0.B003.H98'
+    compile group: 'org.apache.servicecomb', name: 'service-registry', version:'1.0.0.B003.H98'
+    compile group: 'org.apache.servicecomb', name: 'spring-boot2-starter-servlet', version:'1.0.0.B003.H98'
+    compile group: 'org.apache.servicecomb', name: 'spring-boot2-starter-standalone', version:'1.0.0.B003.H98'
+    compile group: 'org.antlr', name: 'ST4', version:'4.0.8'
+    compile group: 'io.swagger', name: 'swagger-annotations', version:'1.5.21'
+    compile group: 'io.swagger', name: 'swagger-core', version:'1.5.21'
+    compile group: 'org.apache.servicecomb', name: 'swagger-generator-core', version:'1.0.0.B003.H98'
+    compile group: 'org.apache.servicecomb', name: 'swagger-generator-jaxrs', version:'1.0.0.B003.H98'
+    compile group: 'org.apache.servicecomb', name: 'swagger-generator-springmvc', version:'1.0.0.B003.H98'
+    compile group: 'org.apache.servicecomb', name: 'swagger-invocation-core', version:'1.0.0.B003.H98'
+    compile group: 'org.apache.servicecomb', name: 'swagger-invocation-jaxrs', version:'1.0.0.B003.H98'
+    compile group: 'org.apache.servicecomb', name: 'swagger-invocation-springmvc', version:'1.0.0.B003.H98'
+    compile group: 'org.apache.servicecomb', name: 'swagger-invocation-validator', version:'1.0.0.B003.H98'
+    compile group: 'io.swagger', name: 'swagger-models', version:'1.5.21'
+    compile group: 'org.apache.servicecomb', name: 'transport-common', version:'1.0.0.B003.H98'
+    compile group: 'org.apache.servicecomb', name: 'transport-highway', version:'1.0.0.B003.H98'
+    compile group: 'org.apache.servicecomb', name: 'transport-rest-client', version:'1.0.0.B003.H98'
+    compile group: 'org.apache.servicecomb', name: 'transport-rest-servlet', version:'1.0.0.B003.H98'
+    compile group: 'org.apache.servicecomb', name: 'transport-rest-vertx', version:'1.0.0.B003.H98'
+    compile group: 'io.vertx', name: 'vertx-auth-common', version:'3.6.3'
+    compile group: 'io.vertx', name: 'vertx-bridge-common', version:'3.6.3'
+    compile group: 'io.vertx', name: 'vertx-core', version:'3.6.3'
+    compile group: 'io.vertx', name: 'vertx-web', version:'3.6.3'
+    compile group: 'io.vertx', name: 'vertx-web-common', version:'3.6.3'
+    compile group: 'com.netflix.spectator', name: 'spectator-reg-servo', version: '0.71.0'
+    compile group: 'com.netflix.spectator', name: 'spectator-api', version: '0.71.0'
+    compile group: 'com.ibm.icu', name: 'icu4j', version: '58.2'
+    compile group: 'io.zipkin.brave', name: 'brave-spring-beans', version:'5.6.0'
+    compile group: 'com.huawei.paas.cse', name: 'cse-handler-tracing', version:'6.5.59'
+    compile group: 'com.huawei.paas.cse', name: 'cse-solution-spring-cloud', version:'6.5.59'
+    compile group: 'org.apache.servicecomb', name: 'edge-core', version:'1.0.0.B003.H98'
+    compile group: 'com.squareup.okhttp3', name: 'okhttp', version:'3.12.1'
+    compile group: 'com.squareup.okio', name: 'okio', version:'1.15.0'
+    compile group: 'org.apache.servicecomb', name: 'spring-boot-common', version:'1.0.0.B003.H98'
+    compile group: 'com.fasterxml.woodstox', name: 'woodstox-core', version: '5.2.1'
+    compile group: 'com.huawei.paas.cse', name: 'cse-solution-service-engine', version:'6.5.59'
+    compile group: 'org.apache.servicecomb', name: 'handler-loadbalance', version:'1.0.0.B003.H98'
+    compile group: 'com.huawei.paas.cse', name: 'cse-handler-cloud-extension', version:'6.5.59'
+    }
+    
+    compile group: 'com.netflix.governator', name: 'governator-api', version: '1.12.10'
+    compile group: 'com.netflix.governator', name: 'governator-core', version: '1.12.10'
+    compile group: 'com.netflix.governator', name: 'governator', version: '1.12.10'
+    if(componentsMap!=null && componentsMap.containsKey("hystrix")) {
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix', version:'2.1.2.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version:'2.1.3.RELEASE'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-netflix-hystrix', version: '2.1.3.RELEASE'
+   
+    }
+    compile group: 'com.netflix.hystrix', name: 'hystrix-core', version:'1.5.18'
+    compile group: 'com.netflix.netflix-commons', name: 'netflix-infix', version: '0.3.0'
+    compile group: 'com.netflix.netflix-commons', name: 'netflix-commons-util', version: '0.3.0'
+    compile group: 'com.netflix.netflix-commons', name: 'netflix-statistics', version: '0.1.1'
+    compile group: 'com.netflix.netflix-commons', name: 'netflix-eventbus', version: '0.3.0'
+    
+    compile group: 'com.netflix.ribbon', name: 'ribbon-core', version: '2.3.0'
+    compile group: 'com.netflix.ribbon', name: 'ribbon-eureka', version: '2.3.0'
+    compile group: 'com.netflix.ribbon', name: 'ribbon-httpclient', version: '2.3.0'
+    compile group: 'com.netflix.ribbon', name: 'ribbon-loadbalancer', version: '2.3.0'
+    compile group: 'com.netflix.ribbon', name: 'ribbon-transport', version: '2.3.0'
+    compile group: 'com.netflix.ribbon', name: 'ribbon', version: '2.3.0'
+    //新增的依赖 开始
+	compile group: 'io.micrometer', name: 'micrometer-core', version: '1.1.3'
+	compile group: 'org.latencyutils', name: 'LatencyUtils', version: '2.0.3'
+	
+	//测试去掉就不行的包
+	testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.1.3.RELEASE'
+	testCompile group: 'org.springframework.boot', name: 'spring-boot-test', version: '2.1.3.RELEASE'
+	compile group: 'org.springframework.boot', name: 'spring-boot-test-autoconfigure', version: '2.1.3.RELEASE'
+	compile group: 'com.github.vlsi.compactmap', name: 'compactmap', version: '1.2.1'
+	compile group: 'io.netty', name: 'netty-transport-native-unix-common', version: '4.1.33.Final'
+	
+	compile group: 'io.netty', name: 'netty-resolver', version: '4.1.33.Final'
+	compile group: 'javax.annotation', name: 'javax.annotation-api', version: '1.3.2'
+	compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jdk8', version: '2.9.8'
+	compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.9.8'
+	compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-parameter-names', version: '2.9.8'
+	
+	compile group: 'net.bytebuddy', name: 'byte-buddy', version: '1.9.10'
+	testCompile group: 'net.bytebuddy', name: 'byte-buddy-agent', version: '1.9.10'
+	
+	compile group: 'org.xmlunit', name: 'xmlunit-core', version: '2.6.2'
+	compile group: 'org.springframework', name: 'spring-test', version: '5.1.5.RELEASE'
+	compile group: 'org.springframework', name: 'spring-jcl', version: '5.1.5.RELEASE'
+	compile group: 'com.vaadin.external.google', name: 'android-json', version: '0.0.20131108.vaadin1'
+	compile group: 'javax.xml.stream', name: 'stax-api', version: '1.0-2'
+	compile group: 'com.github.andrewoma.dexx', name: 'dexx-collections', version: '0.2'
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-webflux', version: '2.1.3.RELEASE'
+	compile group: 'io.projectreactor', name: 'reactor-core', version: '3.2.6.RELEASE'
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-reactor-netty', version: '2.1.3.RELEASE'
+	compile group: 'io.projectreactor.ipc', name: 'reactor-netty', version: '0.8.5.RELEASE'
+	
+	compile group: 'org.reactivestreams', name: 'reactive-streams', version: '1.0.2'
+	compile group: 'org.objenesis', name: 'objenesis', version: '2.6'
+	compile group: 'org.synchronoss.cloud', name: 'nio-stream-storage', version: '1.1.3'
+	compile group: 'org.synchronoss.cloud', name: 'nio-multipart-parser', version: '1.1.0'
+	compile group: 'io.netty', name: 'netty-handler-proxy', version: '4.1.33.Final'
+	compile group: 'io.netty', name: 'netty-codec-socks', version: '4.1.33.Final'
+	compile group: 'org.springframework', name: 'spring-webflux', version: '5.1.5.RELEASE'
+	compile group: 'org.aspectj', name: 'aspectjrt', version: '1.9.2'
+	compile group: 'org.hdrhistogram', name: 'HdrHistogram', version: '2.1.9'   
+    //新增结束	   
+    //新增的依赖 结束
+    compile group: 'com.netflix.servo', name: 'servo-core', version: '0.12.21'
+    compile group: 'com.netflix.servo', name: 'servo-internal', version: '0.10.1'
+    //结束：集成注册中心、断路器、负载均衡相关jar
+    
+    //开始：Jersey RESTful WebService框架相关jar、netty、reactivex、http及相关依赖jar包
+    compile group: 'com.sun.jersey.contribs', name: 'jersey-apache-client4', version: '1.19.1'
+    compile group: 'com.sun.jersey', name: 'jersey-client', version: '1.19.1'
+    compile group: 'com.sun.jersey', name: 'jersey-core', version: '1.19.1'
+    compile group: 'com.thoughtworks.xstream', name: 'xstream', version: '1.4.10'
+    compile group: 'commons-codec', name: 'commons-codec', version:'1.11'
+    compile group: 'commons-configuration', name: 'commons-configuration', version: '1.8'
+    compile group: 'commons-jxpath', name: 'commons-jxpath', version: '1.3'
+    compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
+    compile group: 'commons-logging', name: 'commons-logging', version: '1.2'
+    compile group: 'io.netty', name: 'netty-buffer', version:'4.1.33.Final'
+    compile group: 'io.netty', name: 'netty-codec', version:'4.1.33.Final'
+    compile group: 'io.netty', name: 'netty-codec-http', version:'4.1.33.Final'
+    compile group: 'io.netty', name: 'netty-common', version:'4.1.33.Final'
+    compile group: 'io.netty', name: 'netty-handler', version:'4.1.33.Final'
+    compile group: 'io.netty', name: 'netty-transport-native-epoll', version:'4.1.33.Final'
+    compile group: 'io.netty', name: 'netty-transport', version:'4.1.33.Final'
+    compile group: 'io.reactivex', name: 'rxjava', version:'1.3.8'
+    compile group: 'io.reactivex', name: 'rxnetty-contexts', version: '0.4.9'
+    compile group: 'io.reactivex', name: 'rxnetty-servo', version: '0.4.9'
+    compile group: 'io.reactivex', name: 'rxnetty', version: '0.4.9'
+    compile group: 'javax.inject', name: 'javax.inject', version: '1'
+    compile group: 'javax.validation', name: 'validation-api', version:'2.0.1.Final'
+    compile group: 'javax.ws.rs', name: 'jsr311-api', version: '1.1.1'
+    compile group: 'javax.xml.stream', name: 'stax-api', version: '1.0.1'
+    compile group: 'joda-time', name: 'joda-time', version:'2.10.1'
+    compile group: 'org.antlr', name: 'antlr-runtime', version: '3.4'
+    compile group: 'org.antlr', name: 'stringtemplate', version: '3.2.1'
+    compile group: 'org.apache.commons', name: 'commons-math', version: '2.2'
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.7'
+    compile group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.4.11'
+    compile group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.60'
+    //compile group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.60'
+    compile group: 'org.bouncycastle', name: 'bcprov-jdk16', version: '1.46'
+    compile group: 'org.codehaus.jettison', name: 'jettison', version: '1.3.7'
+    compile group: 'org.codehaus.woodstox', name: 'stax2-api', version: '3.1.4'
+    compile group: 'org.ow2.asm', name: 'asm', version:'5.0.4'
+    //结束：Jersey RESTful WebService框架相关jar、netty、reactivex、http及相关依赖jar包
+    
+    //springboot集成tomcat的jar包
+    //compile group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat', version: '2.1.3.RELEASE'
+    
+    //开始：spring cloud相关jar
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-commons', version:'2.1.2.RELEASE'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-context', version:'2.1.2.RELEASE'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-netflix-core', version:'2.1.2.RELEASE'
+    //if(!baseConfig.sgdsp.equals("") && !baseConfig.sgdsp.toBoolean()) {
+    //compile group: 'org.springframework.cloud', name: 'spring-cloud-netflix-eureka-client', version:'2.1.2.RELEASE'
+ //   compile group: 'org.springframework.cloud', name: 'spring-cloud-netflix-eureka-server', version:'2.1.2.RELEASE'
+    //}
+ 	compile group: 'org.springframework.cloud', name: 'spring-cloud-netflix-archaius', version:'2.1.2.RELEASE'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-archaius', version:'2.1.2.RELEASE'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-ribbon', version:'2.1.2.RELEASE'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter', version:'2.1.2.RELEASE'
+    //结束：spring cloud相关jar
+     
+    //开始：spring 安全相关jar
+    compile group: 'org.springframework.security', name: 'spring-security-crypto', version:'5.1.4.RELEASE'
+    compile group: 'org.springframework.security', name: 'spring-security-rsa', version: '1.0.7.RELEASE'
+    //结束：spring 安全相关jar
+    
+    //开始：spring基础依赖jar、断路器相关jar、feign相关jar、数据库驱动jar包，配置中心启动相关jar包
+    
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-netflix-ribbon', version: '2.1.2.RELEASE'
+    compile group: 'stax', name: 'stax-api', version: '1.0.1'
+    compile group: 'xmlpull', name: 'xmlpull', version: '1.1.3.1'
+    compile group: 'xpp3', name: 'xpp3_min', version: '1.1.4c'
+    compile group: 'dom4j', name: 'dom4j', version: '1.6.1'
+    compile group: 'org.apache.ant', name: 'ant', version: '1.9.7'
+    compile group: 'com.lowagie', name: 'itext', version: '1.5.3'
+    compile group: 'pdfbox', name: 'pdfbox', version: '0.7.4'
+    compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-cbor', version: '2.9.8'
+    compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-afterburner', version:'2.9.8'
+    compile group: 'com.netflix.hystrix', name: 'hystrix-javanica', version: '1.5.18'
+    compile group: 'com.netflix.hystrix', name: 'hystrix-metrics-event-stream', version: '1.5.18'
+    compile group: 'com.netflix.hystrix', name: 'hystrix-serialization', version: '1.5.18'
+    compile group: 'io.github.openfeign', name: 'feign-core', version:'10.2.3'
+    compile group: 'io.github.openfeign', name: 'feign-hystrix', version:'10.2.3'
+    compile group: 'io.github.openfeign', name: 'feign-java8', version:'9.5.1'
+    compile group: 'io.github.openfeign', name: 'feign-slf4j', version:'10.2.3'
+    compile group: 'io.github.openfeign.form', name: 'feign-form', version: '3.8.0'
+    compile group: 'io.github.openfeign.form', name: 'feign-form-spring', version: '3.8.0'
+    compile group: 'io.github.openfeign', name: 'feign-httpclient', version: '10.2.3'
+    compile group: 'io.github.openfeign', name: 'feign-okhttp', version: '10.2.3'
+    
+    compile group: 'org.apache.commons', name: 'commons-lang3', version:'3.8.1'
+    compile group: 'org.hdrhistogram', name: 'HdrHistogram', version: '2.1.9'
+    compile group: 'org.jvnet', name: 'animal-sniffer-annotation', version: '1.0'
+    if(componentsMap!=null && componentsMap.containsKey("feign")) {
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version:'2.1.2.RELEASE'
+    }
+	compile group: 'org.springframework.cloud', name: 'spring-cloud-openfeign-core', version: '2.1.2.RELEASE'
+    compile group: 'org.springframework', name: 'spring-tx', version:'5.1.5.RELEASE'
+    compile group: 'xml-apis', name: 'xml-apis', version: '1.4.01'
+    compile group: 'org.springframework', name: 'spring-orm', version:'5.1.5.RELEASE'
+    compile group: 'org.springframework', name: 'spring-aspects', version:'5.1.5.RELEASE'
+    compile group: 'org.jboss', name: 'jandex', version:'2.0.5.Final'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version:'2.1.3.RELEASE'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.11'
+    compile group: 'postgresql', name: 'postgresql', version: '9.3-1102.jdbc4'
+    compile group: 'com.github.noraui', name: 'ojdbc8', version: '12.2.0.1'
+    compile group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.2'
+    compile group: 'javax.transaction', name: 'javax.transaction-api', version: '1.3'
+    
+     //if(baseConfig.packingParam.equals("")) {
+     //compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-config', version:'2.1.3.RELEASE'
+     //compile group: 'org.springframework.cloud', name: 'spring-cloud-config-client', version:'2.1.3.RELEASE'
+     //}
+    //结束：spring基础依赖jar、断路器相关jar、feign相关jar、数据库驱动jar包，配置中心启动相关jar包
+    
+    //开始：集成redis
+    if((componentsMapsb!=null && componentsMapsb.containsKey("session")) || (componentsMapsb!=null && componentsMapsb.containsKey("redis"))) {
+    compile group: 'org.springframework', name: 'spring-context-support', version:'5.1.5.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version: '2.1.3.RELEASE'
+    compile group: 'org.apache.commons', name: 'commons-pool2', version: '2.6.1'
+    compile group: 'org.springframework.data', name: 'spring-data-keyvalue', version: '2.1.5.RELEASE'
+    compile group: 'org.springframework.data', name: 'spring-data-redis', version: '2.1.5.RELEASE'
+    compile group: 'redis.clients', name: 'jedis', version: '2.9.1'
+    
+    ext.rootProjectLibs1 = new File(rootDir.toString().substring(0,rootDir.toString().lastIndexOf(osdir))+"/${mainProjectName}"+'/','uaplib').getAbsolutePath()
+    ext.jarTree =fileTree(dir: rootProjectLibs1,include: '**/uap-redis-handle.jar')
+    compile jarTree
+    }
+    
+    if(componentsMapsb!=null && componentsMapsb.containsKey("session")) {
+    compile group: 'org.springframework.session', name: 'spring-session-data-redis', version: '2.1.4.RELEASE'
+    //compile group: 'org.springframework.session', name: 'spring-session', version: '1.2.2.RELEASE'
+    }
+    //结束：集成redis
+    
+    //开始:以下为访问数据库依赖jar包，如服务不需要访问数据库请注释掉，包含Mysql、Oracle驱动包，需要访问其它数据库，
+    //spring-data-jpa版本切换
+    if(componentsMapJpa!=null && componentsMapJpa.containsKey("jpa1.x")) {
+    compile group: 'com.sgcc.uap', name: 'com.sgcc.uap.starter-adapter', version:'0.0.1'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version:'2.1.3.RELEASE'
+    compile group: 'org.hibernate.common', name: 'hibernate-commons-annotations', version: '5.0.1.Final'
+    compile group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.1-api', version:'1.0.2.Final'
+    compile group: 'javax.persistence', name: 'javax.persistence-api', version:'2.2'
+    compile group: 'org.hibernate', name: 'hibernate-core', version: '5.3.7.Final'
+    compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: '5.0.11.Final'
+    compile group: 'org.springframework.data', name: 'spring-data-jpa', version:'1.10.3.RELEASE'
+    compile group: 'org.springframework.data', name: 'spring-data-commons', version:'1.12.3.RELEASE'
+    }
+    if(componentsMapJpa!=null && componentsMapJpa.containsKey("jpa2.x")) {
+    compile group: 'com.sgcc.uap', name: 'com.sgcc.uap.starter-adapter', version:'0.0.1'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version:'2.1.3.RELEASE'
+    compile group: 'org.hibernate.common', name: 'hibernate-commons-annotations', version: '5.0.1.Final'
+    compile group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.1-api', version:'1.0.2.Final'
+    compile group: 'javax.persistence', name: 'javax.persistence-api', version:'2.2'
+    compile group: 'org.hibernate', name: 'hibernate-core', version: '5.3.7.Final'
+    compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: '5.0.11.Final'
+    compile group: 'org.springframework.data', name: 'spring-data-jpa', version:'2.1.5.RELEASE'
+    compile group: 'org.springframework.data', name: 'spring-data-commons', version:'2.1.5.RELEASE'
+    }
+	//mybatis
+	if(componentsMapsb!=null && componentsMapsb.containsKey("mybatis")){
+	 	compile group: 'com.github.jsqlparser', name: 'jsqlparser', version: '2.1'
+		compile group: 'org.mybatis', name: 'mybatis', version: '3.5.2'
+		compile group: 'com.baomidou', name: 'mybatis-plus', version: '3.2.0'
+		compile group: 'com.baomidou', name: 'mybatis-plus-annotation', version: '3.2.0'
+		compile group: 'com.baomidou', name: 'mybatis-plus-boot-starter', version: '3.2.0'
+		compile group: 'com.baomidou', name: 'mybatis-plus-core', version: '3.2.0'
+		compile group: 'com.baomidou', name: 'mybatis-plus-extension', version: '3.2.0'
+		compile group: 'org.mybatis', name: 'mybatis-spring', version: '2.0.2'
+		compile group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-autoconfigure', version: '1.3.1'
+		compile group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: '1.3.1'
+		compile group: 'com.github.pagehelper', name: 'pagehelper', version: '5.1.11'
+		compile group: 'com.github.pagehelper', name: 'pagehelper-spring-boot-autoconfigure', version: '1.2.3'
+		compile group: 'com.github.pagehelper', name: 'pagehelper-spring-boot-starter', version: '1.2.3'
+	 }
+	 if(componentsMapsb!=null && componentsMapsb.containsKey("dataSource")){
+	 //compile group: 'org.apache.tomcat', name: 'sgmaps-jdbc', version: '8.5.40'
+     //compile group: 'org.apache.tomcat', name: 'sgmaps-juli', version: '8.5.40'
+  	 compile group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version:'2.1.3.RELEASE'
+    compile group: 'org.springframework', name: 'spring-jdbc', version:'5.1.5.RELEASE'
+	 }
+    //结束：数据库访问依赖jar包
+    
+    //开始：spring基础依赖jar
+    compile group: 'org.apache.ant', name: 'ant-launcher', version: '1.9.7'
+    compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.8.0'
+    compile group: 'commons-net', name: 'commons-net', version: '3.3'
+    compile group: 'net.sf.ezmorph', name: 'ezmorph', version: '1.0.6'
+    compile group: 'org.apache.geronimo.specs', name: 'geronimo-jta_1.1_spec', version: '1.1.1'
+    compile group: 'org.codehaus.jackson', name: 'jackson-core-asl', version: '1.9.5'
+    compile group: 'org.codehaus.jackson', name: 'jackson-mapper-asl', version: '1.9.5'
+    compile group: 'com.fasterxml', name: 'jackson-module-hibernate', version: '1.9.1'
+    //结束：spring基础依赖jar
+    
+	compile group: 'io.zipkin.brave', name: 'brave', version: '5.6.5'
+    //开始：调用链监控相关jar
+    if(componentsMap!=null && componentsMap.containsKey("zipkin")) {
+    ext.rootProjectLibspz = new File(rootDir.toString().substring(0,rootDir.toString().lastIndexOf(osdir))+"/${mainProjectName}"+'/','uaplib').getAbsolutePath()
+    ext.jarTree =fileTree(dir: rootProjectLibspz,include: '**/handler-tracing-zipkin-1.0.0.B003.H98.jar')
+    compile jarTree
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-zipkin', version: '2.1.2.RELEASE'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-sleuth-core', version:'2.1.2.RELEASE'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-sleuth-zipkin', version:'2.1.2.RELEASE'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-sleuth', version:'2.1.2.RELEASE'
+    }
+    if(componentsMap!=null && componentsMap.containsKey("csezipkin")) {
+    compile group: 'org.apache.servicecomb', name: 'handler-tracing-zipkin', version:'1.0.0.B003.H98'
+    }
+    compile group: 'io.zipkin.java', name: 'zipkin', version:'2.9.3'
+    compile group: 'io.zipkin.reporter2', name: 'zipkin-reporter', version: '2.7.13'
+    compile group: 'io.zipkin.reporter2', name: 'zipkin-reporter-spring-beans', version: '2.7.13'
+    compile group: 'io.zipkin.reporter2', name: 'zipkin-sender-okhttp3', version: '2.7.13'
+    compile group: 'io.zipkin.reporter2', name: 'zipkin-sender-amqp-client', version:'2.8.4'
+    compile group: 'io.zipkin.reporter2', name: 'zipkin-sender-kafka11', version:'2.7.3'
+    compile group: 'io.zipkin.reporter2', name: 'zipkin-sender-urlconnection', version:'0.5.0'
+    //zipkin新增的依赖
+	compile group: 'io.zipkin.brave', name: 'brave-instrumentation-spring-webmvc', version: '5.6.5'
+	compile group: 'io.zipkin.brave', name: 'brave-context-log4j2', version: '5.6.5'
+	compile group: 'io.zipkin.brave', name: 'brave-instrumentation-http', version: '5.6.5'
+	compile group: 'io.zipkin.brave', name: 'brave-instrumentation-servlet', version: '5.6.5'
+	compile group: 'io.zipkin.brave', name: 'brave-instrumentation-spring-web', version: '5.6.5'
+	compile group: 'io.zipkin.brave', name: 'brave-instrumentation-spring-rabbit', version: '5.6.5'
+	compile group: 'io.zipkin.brave', name: 'brave-instrumentation-httpclient', version: '5.6.5'
+	compile group: 'io.zipkin.brave', name: 'brave-instrumentation-kafka-clients', version: '5.6.5'
+	compile group: 'io.zipkin.brave', name: 'brave-instrumentation-httpasyncclient', version: '5.6.5'
+    //结束：调用链监控相关jar
+    
+    //开始：配置中心集成相关的jar
+    //if(componentsMap!=null && componentsMap.containsKey("config")) {
+    if(!baseConfig.packingParam.equals("") && baseConfig.packingParam.equals("sgdsp")) {
+    compile group: 'com.rabbitmq', name: 'amqp-client', version: '5.4.3'
+    compile group: 'org.springframework.amqp', name: 'spring-amqp', version: '2.1.4.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-amqp', version: '2.1.3.RELEASE'
+    compile group: 'org.springframework.amqp', name: 'spring-rabbit', version: '2.1.4.RELEASE'
+    compile group: 'org.springframework.retry', name: 'spring-retry', version: '1.2.4.RELEASE'
+    compile group: 'org.springframework', name: 'spring-messaging', version: '5.1.5.RELEASE'
+    compile group: 'org.objenesis', name: 'objenesis', version: '2.6'
+    compile group: 'net.minidev', name: 'accessors-smart', version: '1.2'
+    compile group: 'org.assertj', name: 'assertj-core', version: '3.11.1'
+    compile group: 'org.hamcrest', name: 'hamcrest-library', version: '1.3'
+ 	compile group: 'org.skyscreamer', name: 'jsonassert', version: '1.5.0'
+    compile group: 'com.jayway.jsonpath', name: 'json-path', version: '2.4.0'
+    compile group: 'net.minidev', name: 'json-smart', version: '2.3'
+    compile group: 'org.mockito', name: 'mockito-core', version: '2.23.4'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.1.3.RELEASE'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-bus', version: '2.1.2.RELEASE'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-bus-amqp', version: '2.1.2.RELEASE'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-stream-rabbit', version: '2.1.3.RELEASE'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-stream', version: '2.1.3.RELEASE'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-stream-binder-rabbit', version: '2.1.3.RELEASE'
+	compile group: 'org.springframework.cloud', name: 'spring-cloud-stream-binder-rabbit-core', version: '2.1.3.RELEASE'
+    
+    compile group: 'com.rabbit.http-client', name: 'http-client', version: '2.1.0.RELEASE'
+
+    compile group: 'org.springframework.integration', name: 'spring-integration-amqp', version: '5.1.3.RELEASE'
+    compile group: 'org.springframework.integration', name: 'spring-integration-core', version: '5.1.3.RELEASE'
+    compile group: 'org.springframework.integration', name: 'spring-integration-jmx', version: '5.1.3.RELEASE'
+    compile group: 'org.springframework.integration', name: 'spring-integration-tuple', version: '1.0.0.RELEASE'
+    compile group: 'org.springframework', name: 'spring-tuple', version: '1.0.0.RELEASE'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-stream-codec', version: '1.1.0.RELEASE'
+    compile group: 'com.esotericsoftware', name: 'kryo-shaded', version: '3.0.3'
+    compile group: 'com.esotericsoftware', name: 'minlog', version: '1.3.0'
+    compile group: 'org.json', name: 'json', version: '20140107'
+    compile group: 'org.eclipse.jgit', name: 'org.eclipse.jgit', version: '3.5.3.201412180710-r'
+    compile group: 'com.jcraft', name: 'jsch', version: '0.1.50'
+    
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-reactor-netty', version: '2.1.3.RELEASE'
+    }
+    //结束：配置中心集成相关的jar
+    
+    //开始：集成admin监控相关jar
+    if(componentsMap!=null && componentsMap.containsKey("adminMonitor")) {
+    compile group: 'de.codecentric',name: 'spring-boot-admin-server', version: '2.1.3' 
+    compile group: 'de.codecentric',name: 'spring-boot-admin-server-ui', version: '2.1.3'
+    compile group: 'de.codecentric',name: 'spring-boot-admin-server-ui-hystrix', version: '1.4.2' 
+    compile group: 'de.codecentric',name: 'spring-boot-admin-starter-client', version: '2.1.3'
+    //if(baseConfig.packingParam.equals("")) {
+    compile group: 'com.netflix.zuul', name: 'zuul-core', version: '1.3.0'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-freemarker', version: '2.1.3.RELEASE'
+    compile group: 'org.freemarker', name: 'freemarker', version: '2.3.28'
+    //}
+    }
+    //结束：集成admin监控相关jar
+    
+    //开始：集成加密jar
+	compile group: 'org.jasypt', name: 'jasypt', version: '1.9.2'
+	compile group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot', version: '2.0.0'
+	compile group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot-starter', version: '2.0.0'
+	compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.7.0'
+	//结束：集成加密jar
+	
+	compile group: 'com.alibaba', name: 'fastjson', version: '1.2.58'
+    compile group: 'io.lettuce', name: 'lettuce-core', version: '5.1.4.RELEASE'
+	compile group: 'com.zaxxer', name: 'HikariCP', version: '2.7.9'
+    
+
+	//开始：集成分布式服务总线相关jar
+	if(!baseConfig.packingParam.equals("") && baseConfig.packingParam.equals("sgdsp")) {
+	compile group: 'com.sgcc.uap', name: 'com.sgcc.uap.edas-adapter', version:'0.0.1'
+    compile group: 'org.aspectj', name: 'aspectjrt', version: '1.9.2'
+    compile group: 'com.alibaba.edas', name: 'edas-sdk', version: '1.5.4'
+    compile group: 'com.netflix.eureka', name: 'eureka-client', version: '1.9.12'
+    compile group: 'org.codehaus.jackson', name: 'jackson-core-lgpl', version: '1.9.6'
+    compile group: 'org.codehaus.jackson', name: 'jackson-mapper-lgpl', version: '1.9.6'
+    compile group: 'com.taobao.pandora', name: 'pandora.archive', version: '2.1.9'
+    compile group: 'com.taobao.pandora', name: 'pandora-boot-autoconf', version: '2.1.9.1'
+    compile group: 'com.taobao.pandora', name: 'pandora-boot-common', version: '2.1.9.1'
+    compile group: 'com.taobao.pandora', name: 'pandora-boot-test', version: '2.1.9.1'
+    compile group: 'com.taobao.pandora', name: 'pandora-boot-version', version: '2.1.9.1'
+    compile group: 'com.taobao.pandora', name: 'pandora-sentinel-spring-boot-starter', version: '2_15_170323-1'
+    compile group: 'com.alibaba.dauth', name: 'sdk-client', version: '1.2.3'
+    compile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-dauth', version: '1.0'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-eagleeye', version: '1.3'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-pandora', version: '1.3'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-sentinel', version: '1.0'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-vipclient', version: '1.3'
+    compile group: 'com.taobao.pandora', name: 'pandora-boot-loader', version: '2.1.9.1'
+	compile group: 'com.taobao.middleware', name: 'logger.api', version: '0.2.3'
+	compile group: 'com.taobao.diamond', name: 'diamond-utils', version: '3.2.0'
+	compile group: 'com.taobao.pandora', name: 'pandora-boot-bootstrap', version: '2.1.9.1'
+	}
+	
+	//开始：集成sgdsp-nacos环境相关jar
+	if(!baseConfig.packingParam.equals("") && baseConfig.packingParam.equals("sgdsp-nacos")) {
+	//---------------------------------集成nacos-----------------------------------------------
+	compile group: 'commons-io', name: 'commons-io', version:'2.6'
+	compile group: 'org.apache.logging.log4j', name: 'log4j-api', version:'2.11.2'	
+	compile group: 'org.apache.logging.log4j', name: 'log4j-to-slf4j', version:'2.11.2'	
+	//compile group: 'com.netflix.netflix-commons', name: 'netflix-commons-util', version: '0.3.0'
+	compile group: 'io.prometheus', name: 'simpleclient', version: '0.5.0'
+	compile group: 'com.alibaba.nacos', name: 'nacos-common', version: '1.1.1'
+	compile group: 'com.alibaba.nacos', name: 'nacos-api', version: '1.1.1'
+	compile group: 'com.alibaba.nacos', name: 'nacos-client', version: '1.1.1'
+	compile group: 'com.alibaba.cloud', name: 'spring-cloud-alibaba-nacos-config', version: '2.0.0.RELEASE'
+	compile group: 'com.alibaba.cloud', name: 'spring-cloud-starter-alibaba-nacos-config', version: '2.0.0.RELEASE'
+	compile group: 'com.alibaba.cloud', name: 'spring-cloud-alibaba-nacos-discovery', version: '2.0.0.RELEASE'
+	compile group: 'com.alibaba.cloud', name: 'spring-cloud-starter-alibaba-nacos-discovery', version: '2.0.0.RELEASE'
+	//---------------------------------集成sentinel----------------------------------------------
+	compile group: 'com.googlecode.concurrentlinkedhashmap', name: 'concurrentlinkedhashmap-lru', version:'1.4.2'
+	compile group: 'com.alibaba.csp', name: 'sentinel-annotation-aspectj', version:'1.6.3'
+	compile group: 'com.alibaba.csp', name: 'sentinel-cluster-client-default', version:'1.6.3'
+	compile group: 'com.alibaba.csp', name: 'sentinel-cluster-common-default', version:'1.6.3'
+	compile group: 'com.alibaba.csp', name: 'sentinel-cluster-server-default', version:'1.6.3'
+	compile group: 'com.alibaba.csp', name: 'sentinel-core', version:'1.6.3'
+	compile group: 'com.alibaba.csp', name: 'sentinel-datasource-extension', version:'1.6.3'
+	compile group: 'com.alibaba.csp', name: 'sentinel-parameter-flow-control', version:'1.6.3'
+	compile group: 'com.alibaba.csp', name: 'sentinel-reactor-adapter', version:'1.6.3'
+	compile group: 'com.alibaba.csp', name: 'sentinel-spring-webflux-adapter', version:'1.6.3'
+	compile group: 'com.alibaba.csp', name: 'sentinel-transport-common', version:'1.6.3'
+	compile group: 'com.alibaba.csp', name: 'sentinel-transport-simple-http', version:'1.6.3'
+	compile group: 'com.alibaba.csp', name: 'sentinel-web-servlet', version:'1.6.3'
+	compile group: 'com.alibaba.cloud', name: 'spring-cloud-alibaba-sentinel', version:'2.0.0.RELEASE'
+	compile group: 'com.alibaba.cloud', name: 'spring-cloud-alibaba-sentinel-datasource', version:'2.0.0.RELEASE'
+	compile group: 'com.alibaba.cloud', name: 'spring-cloud-starter-alibaba-sentinel', version:'2.0.0.RELEASE'
+	//---------------------------------集成swagger2----------------------------------------------
+	compile group: 'io.swagger', name: 'swagger-annotations', version:'1.5.21'
+	compile group: 'io.swagger', name: 'swagger-models', version:'1.5.21'
+	compile group: 'org.mapstruct', name: 'mapstruct', version:'1.2.0.Final'
+	compile group: 'io.springfox', name: 'springfox-core', version:'2.9.2'
+	compile group: 'io.springfox', name: 'springfox-schema', version:'2.9.2'
+	compile group: 'io.springfox', name: 'springfox-spi', version:'2.9.2'
+	compile group: 'io.springfox', name: 'springfox-spring-web', version:'2.9.2'
+	compile group: 'io.springfox', name: 'springfox-swagger2', version:'2.9.2'
+	compile group: 'io.springfox', name: 'springfox-swagger-common', version:'2.9.2'
+	compile group: 'io.springfox', name: 'springfox-swagger-ui', version:'2.9.2'
+	compile group: 'org.springframework.plugin', name: 'spring-plugin-core', version:'1.2.0.RELEASE'
+	compile group: 'org.springframework.plugin', name: 'spring-plugin-metadata', version:'1.2.0.RELEASE'
+	}
+	
+	compile group: 'com.alibaba.edas.configcenter', name: 'configcenter-client', version: '1.0.2-state-grid'
+	compile group: 'com.taobao.diamond', name: 'diamond-client', version: 'edas-3.7.3'
+	//结束：集成分布式服务总线相关jar
+	
+	//开始：单元测试所需jar
+    testCompile group: 'org.hamcrest', name: 'hamcrest-core', version: '1.3'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    //结束：单元测试所需jar
+    
+     
+    //开始：uap提供的工具jar包
+    ext.rootProjectLibs = new File(rootDir.toString().substring(0,rootDir.toString().lastIndexOf(osdir))+"/${mainProjectName}"+'/','uaplib').getAbsolutePath()
+    ext.jarTree =fileTree(dir: rootProjectLibs,include: '**/uap-data-handle.jar')
+    ext.jarTree +=fileTree(dir: rootProjectLibs,include: '**/uap-tools-1.0.jar')
+    ext.jarTree +=fileTree(dir: rootProjectLibs,include: '**/uap-jwt.jar')
+    //ext.jarTree =fileTree(dir: rootProjectLibs,include: '**/uap-*.jar')
+	//金仓驱动包及方言包
+    ext.jarTree +=fileTree(dir: rootProjectLibs,include: '**/kingbasejdbc3.jar')
+    ext.jarTree +=fileTree(dir: rootProjectLibs,include: '**/KingbaseDialect.jar')
+    
+    //达梦驱动包及方言包
+    ext.jarTree +=fileTree(dir: rootProjectLibs,include: '**/DmJdbcDriver.jar')
+    ext.jarTree +=fileTree(dir: rootProjectLibs,include: '**/DmDialect-for-hibernate4.0.jar')
+	//ext.jarTree +=fileTree(dir: rootProjectLibs,include: '**/com.sgcc.uap.mxframework-micro_3.0.0.v201803070531.jar')
+    ext.jarTree +=fileTree(dir: rootProjectLibs,include: '**/com.sgcc.uap.core.rest-1.0.jar')
+    ext.jarTree +=fileTree(dir: rootProjectLibs,include: '**/com.sgcc.uap.exception-1.0.jar')
+	ext.jarTree +=fileTree(dir: rootProjectLibs,include: '**/com.sgcc.uap.mdd.validator-1.0.jar')
+	ext.jarTree +=fileTree(dir: rootProjectLibs,include: '**/com.sgcc.uap.mdd.runtime-1.0.jar')
+    ext.jarTree +=fileTree(dir: rootProjectLibs,include: '**/com.sgcc.uap.utils-1.0.jar')
+    ext.jarTree +=fileTree(dir: rootProjectLibs,include: '**/json-lib-2.4-jdk15.jar')
+    ext.jarTree +=fileTree(dir: rootProjectLibs,include: '**/sigar.jar')
+	ext.jarTree +=fileTree(dir: rootProjectLibs,include: '**/com.sgcc.uap.sgsm-1.0.0.jar')
+	//ext.jarTree +=fileTree(dir: rootProjectLibs,include: '**/com.sgcc.uap.sgsm.starter.jar')
+	//isc
+	if(componentsMapsguap!=null && componentsMapsguap.containsKey("isc")) {
+	ext.jarTree +=fileTree(dir: rootProjectLibs,include: '**/isc_sm_agent.jar')
+	ext.jarTree +=fileTree(dir: rootProjectLibs,include: '**/isc_sso_agent.jar')
+	}
+	//lbss
+	if(componentsMapsguap!=null && componentsMapsguap.containsKey("lbss")) {
+	ext.jarTree +=fileTree(dir: rootProjectLibs,include: '**/component_encrypt.jar')
+	ext.jarTree +=fileTree(dir: rootProjectLibs,include: '**/javax.wsdl_1.6.2.v201005080631.jar')
+	ext.jarTree +=fileTree(dir: rootProjectLibs,include: '**/org.apache.commons.httpclient_3.1.0.v201005080502.jar')
+	ext.jarTree +=fileTree(dir: rootProjectLibs,include: '**/org.apache.ws.commons.schema_1.1.0.jar')
+	ext.jarTree +=fileTree(dir: rootProjectLibs,include: '**/org.codehaus.stax2_3.2.9.jar')
+	ext.jarTree +=fileTree(dir: rootProjectLibs,include: '**/org.codehaus.xfire_1.2.6.jar')
+	ext.jarTree +=fileTree(dir: rootProjectLibs,include: '**/org.java.dom_1.0.0.jar')
+	ext.jarTree +=fileTree(dir: rootProjectLibs,include: '**/uap_lbssclient_1.0.0.201808031009.jar')
+	}
+	//bpm
+	if(componentsMapsguap!=null && componentsMapsguap.containsKey("bpm")) {
+	ext.jarTree +=fileTree(dir: rootProjectLibs,include: '**/com.sgcc.uap.bpm.jar')
+	}
+    compile jarTree
+    //结束：uap提供的工具jar包
+}

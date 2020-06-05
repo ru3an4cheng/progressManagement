@@ -1,0 +1,12 @@
+  def osdir = ''
+  def os = System.getProperty("os.name")
+  if(os.toString().toUpperCase().startsWith("WINDOWS")) {
+    osdir = '\\'
+  }else {
+    osdir = '/'
+  }
+  dependencies {
+    ext.rootProjectLibs = new File(rootDir.toString().substring(0,rootDir.toString().lastIndexOf(osdir))+"/${mainProjectName}"+'/','publib').getAbsolutePath()
+    ext.jarTree =fileTree(dir: rootProjectLibs,include: '**/*.jar')
+    compile jarTree
+  }
